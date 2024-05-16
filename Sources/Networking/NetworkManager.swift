@@ -53,12 +53,7 @@ public class NetworkManager<APIError: Codable> {
             let response = try decoder.decode(responseType, from: data)
             return response
         } catch let error as DecodingError {
-            switch error {
-            case .keyNotFound(let key, _):
-                throw NetworkError<APIError>.keyNotFound(missingKey: key.stringValue)
-            default:
-                throw NetworkError<APIError>.keyNotFound(missingKey: error.localizedDescription)
-            }
+            throw NetworkError<APIError>.decodingError(error: error)
         }
     }
 
@@ -98,7 +93,6 @@ public class NetworkManager<APIError: Codable> {
                 throw NetworkError<APIError>.api(error: decodedResponse)
             default:
                 let decodedResponse = try decodeResponse(from: data, responseType: responseType)
-
                 return decodedResponse
             }
         }

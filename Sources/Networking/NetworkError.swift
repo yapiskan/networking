@@ -10,6 +10,6 @@ import Foundation
 public enum NetworkError<APIError: Decodable>: Error {
     case badURL
     case errorWithStatusCode(Int)
-    case keyNotFound(missingKey: String)
+    case decodingError(error: DecodingError)
     case api(error: APIError)
 }
